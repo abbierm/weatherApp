@@ -53,10 +53,6 @@ async def local_weather(
 
 	json_response = await HTTPXClient.build_request(lat=lat, lon=lon,
 	 													location=location)
-	# for thing in json_response:
-	# 	print(thing)
-
-	print(type(json_response))
 	
 	return templates.TemplateResponse(
 		"weather.html", 
