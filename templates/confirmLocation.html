@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+	
+{% block title %}
+	Weather App: Confirm Location
+{% endblock title %}
+
+{% block main %}
+<div>
+	
+	<div class="form-container">
+		<h3>Select Your City</h3>
+		<form action="/local_weather" method="post" novalidate id="lat-lon" class="form-index">
+			<select name="geocoordinates">
+				{% for loc in locations %}
+						<option name="geo_location" 
+							value="{'lat': {{ loc['lat'] }}, 'lon': {{ loc['lon'] }}, 'location': '{{ loc['name'] }}'}">
+							{% if loc["state"] != None %}
+								{{ loc['name'] }}, {{ loc['country'] }}, {{loc['state']}}
+							{% else %}
+								{{ loc['name'] }}, {{ loc['country'] }}
+							{% endif %}
+						</option>
+						
+				{% endfor %}
+			</select>
+			
+			<div class="selection-row">
+				<input type="checkbox" name="save_response">
+				<small>Save Response</small>
+			</div>
+			<input type="submit" value="Submit">
+			
+		</form>
+
+</div>
+	
+{% endblock main %}

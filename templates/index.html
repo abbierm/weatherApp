@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Front Page
+{% endblock title %}
+
+{% block main %}
+<div class="form-container">
+	<h1>Weather App 🌦️</h1>
+	<form action="/confirm-location" method="post" class="form-index">
+		<div class="form-row">
+			<label for="location">Location</label>
+			<input type="text" name="location" value="City, State, Country">
+		</div>
+		<input type="submit" value="Submit">
+	</form>
+	</div>
+</div>
+
+
+{% endblock main %}

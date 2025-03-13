@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+        <title> 
+            WeatherApp: {% block title %}{% endblock %} 
+        </title>
+    </head>
+ 
+    <body>
+        {% if flash %}
+            <div class="flashbar">
+                <ul>
+                    {% for m in flash.messages %}
+                        <li class="flashbar-list">{{ m }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+        {% block main %}{% endblock main %}
+
+    </body>
+</html>
