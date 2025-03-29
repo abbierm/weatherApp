@@ -1,8 +1,10 @@
+# routes for the website
+
 from fastapi import APIRouter, Request, Depends, HTTPException, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from dependencies import HTTPXClient, remove_names
-from typing import Annotated, Optional
+from dependencies import remove_names
+from typing import Annotated, Optional, Union
 from pydantic import BaseModel
 import ast
 
@@ -10,17 +12,18 @@ import ast
 
 templates = Jinja2Templates(
 	directory="./templates/", 
-	auto_reload=True)
+	auto_reload=True
+)
 
 
-weather_router = APIRouter(
+weather_router = r = APIRouter(
 	tags=["weather"])
 
 
 #==============================================================================
 # Weather Page Routes
 #==============================================================================
-@weather_router.get("/", response_class=HTMLResponse)
+@r.get("/", response_class=HTMLResponse)
 def index(request: Request):
 	return templates.TemplateResponse(request=request, name="index.html")
 
@@ -34,7 +37,7 @@ class ConfirmLocationGeo(BaseModel):
 	def as_form(
 		cls,
 		geocoordinates: str = Form(...),
-		save_response: str | None = Form(None)
+		save_response: Union[str, None] = Form(None)
 	):
 		save_response_bool = True if save_response == "on" else False
 		geo_response = ast.literal_eval(geocoordinates)
@@ -43,7 +46,7 @@ class ConfirmLocationGeo(BaseModel):
 		return cls(geo_location=geo_location, save_response=save_response_bool, location=geo_response['location'])
 
 
-@weather_router.post("/local_weather/", response_class=HTMLResponse)
+@r.post("/local_weather/", response_class=HTMLResponse)
 async def local_weather(
 	request: Request,
 	form_data: ConfirmLocationGeo = Depends(ConfirmLocationGeo.as_form)
@@ -71,7 +74,7 @@ class LocationFormData(BaseModel):
 	location: str
 
 
-@weather_router.post("/confirm-location/", response_class=HTMLResponse)
+@r.post("/confirm-location/", response_class=HTMLResponse)
 async def location(
 	request: Request,
 	location: Annotated[str, Form()]
