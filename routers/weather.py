@@ -5,7 +5,6 @@ from fastapi.templating import Jinja2Templates
 from dependencies import APIClient, get_settings
 from typing import Optional
 from pydantic import BaseModel
-import ast
 
 
 templates = Jinja2Templates(
@@ -23,7 +22,6 @@ website_router = r = APIRouter(
 @r.get("/", response_class=HTMLResponse)
 def index(request: Request):
 	return templates.TemplateResponse(request=request, name="index.html")
-
 
 
 class LocationForm(BaseModel):
@@ -54,23 +52,22 @@ async def get_weather(
 	client: APIClient = Depends(APIClient),
 	s = Depends(get_settings)
 ):
-	# GET Geo coordinates
+	# Geo coordinates
 	geo_form_string = f"{form_data.city}+{form_data.state}+{form_data.country}"
-	geo_url = s.base_geocoding_url + geo_form_string + s.geocoding_api_key
+	geo_url = s.base_geocoding_url + geo_form_string + "&api_key=" + s.geocoding_api_key
 	json_location = await client.query_url(url=geo_url)
 	
 	# Grab lat and lon
 	try:
 		lat, lon = json_location[0]['lat'], json_location[0]['lon']
-		coordinates_string = f"lat={lat}&lon={lon}{s.weather_api_key}"
+		coordinates_string = f"lat={lat}&lon={lon}&appid={s.weather_api_key}"
 	except KeyError:
 		# TODO: Turn this into flash message
 		return {"ERROR": f"{form_data.city} not found"}
 	
-	# TODO: Weather API
-	weather_url = f"{s.base_weather_url}&exclude=minutely{coordinates_string}"
+	# Weather API
+	weather_url = f"{s.base_weather_url}&exclude=minutely&{coordinates_string}"
 	json_weather = await client.query_url(url=weather_url)
-	print(json_weather)
 	return templates.TemplateResponse(
 		"weather.html",
 		{

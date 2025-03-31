@@ -2,13 +2,14 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
-from dependencies import on_start_up, on_shutdown, get_settings
+from dependencies import on_start_up, on_shutdown
 
 
 app = FastAPI(on_startup=[on_start_up], on_shutdown=[on_shutdown])
 
 
-# sets a no caching of static files
+# sets a no caching header for static files
+# Should turn this off when deployed
 @app.get("/static/{filepath:path}")
 async def get_static_file(filepath: str):
 	response = FileResponse(f"static/{filepath}")

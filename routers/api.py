@@ -6,7 +6,6 @@ from typing import Optional, Literal
 from pydantic import BaseModel
 
 
-
 api_router = r = APIRouter(
     prefix="/api",
     tags=["weatherAPI"]
@@ -35,11 +34,11 @@ async def weather(
     
     # Geo API
     geo_url = settings.base_geocoding_url + \
-                    location + settings.geocoding_api_key
+                    location + "&api_key=" + settings.geocoding_api_key
     json_location =  await client.query_url(url=geo_url)
     try:
         lat, lon = json_location[0]['lat'], json_location[0]['lon']
-        coordinates_string = f"lat={lat}&lon={lon}{settings.weather_api_key}"
+        coordinates_string = f"lat={lat}&lon={lon}&appid={settings.weather_api_key}"
     except KeyError:
         return {"ERROR": f"{q.location} not found"}
     

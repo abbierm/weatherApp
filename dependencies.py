@@ -16,7 +16,6 @@ class APIClient:
 
 	@classmethod
 	def get_httpx_client(cls) -> httpx.AsyncClient:
-		print("Opening httpx client")
 		if cls.httpx_client is None:
 			timeout = httpx.Timeout(timeout=2)
 			limits = httpx.Limits(max_keepalive_connections=5, max_connections=10)
@@ -29,7 +28,6 @@ class APIClient:
         
 	@classmethod
 	async def close_httpx_client(cls) -> None:
-		print("Closing httpx client")
 		if cls.httpx_client:
 			await cls.httpx_client.aclose()
 			cls.httpx_client = None
