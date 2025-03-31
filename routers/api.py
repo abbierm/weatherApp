@@ -32,10 +32,8 @@ async def weather(
     
     # makes geo_location_url with query location
     location = q.location
-    print(f"LOCATION: {location}")
     
-
-    # GEO API
+    # Geo API
     geo_url = settings.base_geocoding_url + \
                     location + settings.geocoding_api_key
     json_location =  await client.query_url(url=geo_url)
@@ -45,8 +43,8 @@ async def weather(
     except KeyError:
         return {"ERROR": f"{q.location} not found"}
     
+    # Weather API
     weather_url = settings.base_weather_url + coordinates_string
-    print(weather_url)
     return await client.query_url(weather_url)
 
     

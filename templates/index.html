@@ -5,16 +5,34 @@
 {% endblock title %}
 
 {% block main %}
-<div class="form-container">
-	<h1>Weather App 🌦️</h1>
-	<form action="/confirm-location" method="post" class="form-index">
-		<div class="form-row">
-			<label for="location">Location</label>
-			<input type="text" name="location" value="City, State, Country">
-		</div>
-		<input type="submit" value="Submit">
-	</form>
-	</div>
+<div class="content-container">
+    <div class="header-row">
+        <h1>Weather</h1>
+        <ion-icon name="sunny"></ion-icon>
+    </div>
+	<form action="/get_weather/" method="post" class="form-container">
+        <table class="form-table">
+            <tr>
+                <td><label for="city">City</label></td>
+                <td class="inner-table-gap"></td>
+                <td><input type="text" name="city"></td>
+            </tr>
+            <tr>
+                <td><label for="state">State</label></td>
+                <td class="inner-table-gap"></td>
+                <td><label><input type="text" name="state"></label></td>
+            </tr>
+            <tr>
+                <td><label for="country">Country</label></td>
+                <td class="inner-table-gap"></td>
+                <td><input type="text" name="country"></td>
+            </tr>
+            <tr class="submit-table-row">
+                <td></td>
+                <td class="inner-table-gap"></td>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
 </div>
 
 {% endblock main %}

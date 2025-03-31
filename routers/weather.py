@@ -1,13 +1,11 @@
 # routes for the website
-
-from fastapi import APIRouter, Request, Depends, HTTPException, Form
+from fastapi import APIRouter, Request, Depends, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from dependencies import remove_names
-from typing import Annotated, Optional, Union
+from dependencies import APIClient, get_settings
+from typing import Optional
 from pydantic import BaseModel
 import ast
-
 
 
 templates = Jinja2Templates(
@@ -16,84 +14,68 @@ templates = Jinja2Templates(
 )
 
 
-weather_router = r = APIRouter(
-	tags=["weather"])
+website_router = r = APIRouter(
+	tags=["weather"]
+)
 
 
-#==============================================================================
-# Weather Page Routes
-#==============================================================================
+# Homepage
 @r.get("/", response_class=HTMLResponse)
 def index(request: Request):
 	return templates.TemplateResponse(request=request, name="index.html")
 
 
-class ConfirmLocationGeo(BaseModel):
-	geo_location: dict
-	location: str
+
+class LocationForm(BaseModel):
+	city: str
+	state: Optional[str]
+	country: Optional[str]
 	save_response: bool
-
+    
 	@classmethod
-	def as_form(
-		cls,
-		geocoordinates: str = Form(...),
-		save_response: Union[str, None] = Form(None)
-	):
+	def check_form(
+		cls, 
+		city: str = Form(...),
+		state: str | None = Form(""),
+		country: str | None = Form(""),
+		save_response: str | None = Form("")
+    ):
 		save_response_bool = True if save_response == "on" else False
-		geo_response = ast.literal_eval(geocoordinates)
-		geo_location = {}
-		geo_location['lat'], geo_location['lon'] = geo_response['lat'], geo_response['lon']
-		return cls(geo_location=geo_location, save_response=save_response_bool, location=geo_response['location'])
+		city = city.replace(" ", "")
+		state = state.replace(" ", "")
+		country = country.replace(" ", "")
+		return cls(city=city, state=state, country=country, save_response=save_response_bool)
+	
 
-
-@r.post("/local_weather/", response_class=HTMLResponse)
-async def local_weather(
+@r.post("/get_weather", response_class=HTMLResponse)
+async def get_weather(
 	request: Request,
-	form_data: ConfirmLocationGeo = Depends(ConfirmLocationGeo.as_form)
+	form_data: LocationForm = Depends(LocationForm.check_form),
+	client: APIClient = Depends(APIClient),
+	s = Depends(get_settings)
 ):
-	lat, lon = form_data.geo_location['lat'], form_data.geo_location['lon']
-	location = form_data.location
-
-	json_response = await HTTPXClient.build_request(lat=lat, lon=lon,
-	 													location=location)
+	# GET Geo coordinates
+	geo_form_string = f"{form_data.city}+{form_data.state}+{form_data.country}"
+	geo_url = s.base_geocoding_url + geo_form_string + s.geocoding_api_key
+	json_location = await client.query_url(url=geo_url)
 	
+	# Grab lat and lon
+	try:
+		lat, lon = json_location[0]['lat'], json_location[0]['lon']
+		coordinates_string = f"lat={lat}&lon={lon}{s.weather_api_key}"
+	except KeyError:
+		# TODO: Turn this into flash message
+		return {"ERROR": f"{form_data.city} not found"}
+	
+	# TODO: Weather API
+	weather_url = f"{s.base_weather_url}&exclude=minutely{coordinates_string}"
+	json_weather = await client.query_url(url=weather_url)
+	print(json_weather)
 	return templates.TemplateResponse(
-		"weather.html", 
+		"weather.html",
 		{
-			"request": request, 
-			"location": location,
-			"info": json_response
-		}
-	)
-
-
-#==============================================================================
-# Location Route
-#==============================================================================
-class LocationFormData(BaseModel):
-	location: str
-
-
-@r.post("/confirm-location/", response_class=HTMLResponse)
-async def location(
-	request: Request,
-	location: Annotated[str, Form()]
-):
-	"""Use geo-api to get lat and lon for user's location input. """
-	
-	locations_with_names = await HTTPXClient.build_request(location=location)
-	
-	if len(locations_with_names) == 0:
-		flash = {"messages": []}
-		flash["messages"].append(f"Unable to find {location}")
-		return templates.TemplateResponse("index.html", {"request": request,"flash": flash})
-		
-	locations = remove_names(locations_with_names)
-
-	return templates.TemplateResponse(
-		"confirmLocation.html", 
-		{
-			"request": request, 
-			"locations": locations
+			"request": request,
+			"location": form_data.city,
+			"info": json_weather
 		}
 	)
