@@ -1,17 +1,17 @@
 # routes for the website
 from fastapi import Request, Depends, Form
-from app.main import main_router as r
+from app.website import website_router as r
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from ..dependencies import APIClient
 from typing import Optional
 from pydantic import BaseModel
+import jinja2
 
 
-templates = Jinja2Templates(
-    directory="app/templates", 
-    auto_reload=True
-)
+jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader("app/templates"), auto_reload=True)
+
+templates = Jinja2Templates(env=jinja_env)
 
 # Homepage
 @r.get("/", response_class=HTMLResponse)
@@ -49,9 +49,6 @@ async def get_weather(
 ):
 	# config settings
     s = request.app.state.settings
-    print(s)
-    print(type(s))
-    print(type(s.geocoding_api_key))
     # Geo coordinates
     
     geo_form_string = f"{form_data.city}+{form_data.state}+{form_data.country}"

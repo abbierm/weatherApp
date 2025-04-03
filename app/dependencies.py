@@ -8,7 +8,6 @@ class APIClient:
     @classmethod
     def get_httpx_client(cls) -> httpx.AsyncClient:
         if cls.httpx_client is None:
-            print("getting httpx client")
             timeout = httpx.Timeout(timeout=2)
             limits = httpx.Limits(max_keepalive_connections=5,
 								    max_connections=10)
@@ -27,7 +26,6 @@ class APIClient:
         client = cls.get_httpx_client()
         try:
             response = await client.get(url)
-            print(response)
             if response.status_code != 200:
                 return {"ERROR OCCURED" + str(await response.text())}
             json_result = response.json()

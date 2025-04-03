@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from .main import main_router
+from .website import website_router
 from .api import api_router
 from pydantic_settings import BaseSettings
 from config import Settings
@@ -16,7 +16,7 @@ def create_app(settings: BaseSettings = Settings):
 
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-    app.include_router(main_router)
+    app.include_router(website_router)
 
     app.include_router(api_router)
 

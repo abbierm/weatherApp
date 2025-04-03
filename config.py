@@ -1,5 +1,11 @@
 from pydantic_settings import BaseSettings
 from content import WEATHER_API_KEY, GEOCODING_API_KEY
+from pathlib import Path
+import os
+
+
+here = Path.cwd()
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 
 
