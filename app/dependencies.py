@@ -1,5 +1,8 @@
+from fastapi import FastAPI
 import httpx
 from typing import Optional
+from contextlib import asynccontextmanager
+
 
 
 class APIClient:
@@ -34,9 +37,13 @@ class APIClient:
         return json_result
 
 
-async def on_start_up() -> None:
+
+
+@asynccontextmanager
+async def httpx_lifespan_client(app: FastAPI):
     APIClient.get_httpx_client()
-	
-async def on_shutdown() -> None:
+    
+    yield
+
     await APIClient.close_httpx_client()
 	

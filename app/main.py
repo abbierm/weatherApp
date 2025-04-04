@@ -4,12 +4,12 @@ from .website import website_router
 from .api import api_router
 from pydantic_settings import BaseSettings
 from config import Settings
-from .dependencies import on_start_up, on_shutdown
+from .dependencies import httpx_lifespan_client
 
 
 def create_app(settings: BaseSettings = Settings):
 
-    app = FastAPI(on_startup=[on_start_up], on_shutdown=[on_shutdown])
+    app = FastAPI(lifespan=httpx_lifespan_client)
 
     settings = settings()
     app.state.settings = settings
