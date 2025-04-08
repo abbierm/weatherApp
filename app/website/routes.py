@@ -49,8 +49,8 @@ async def get_weather(
 ):
 	# config settings
     s = request.app.state.settings
-    # Geo coordinates
     
+    # Geo coordinates
     geo_form_string = f"{form_data.city}+{form_data.state}+{form_data.country}"
     geo_url = s.base_geocoding_url + geo_form_string + "&api_key=" + s.geocoding_api_key
     json_location = await client.query_url(url=geo_url)

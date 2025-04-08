@@ -11,8 +11,21 @@ class QueryParameters(BaseModel):
     location: str
     exclude: Optional[Literal["current", "minutely", "hourly", "daily", "alerts"]] = None
     units: Optional[Literal["standard", "metric", "imperial"]] = "standard"
-    lang: Optional[Literal["en", "sp"]] = "en"
+    lang: Optional[Literal["en", "es", "sp"]] = "en"
 
+ 
+def make_weather_url(
+        lat: str,
+        lon: str,
+        exclude: Optional[str] = None,
+        units: str = "standard",
+        language: str = "en"
+) -> str:
+    if exclude is None:
+        return f"lat={lat}&lon={lon}&units={units}&language={language}&appid="
+    else:
+        return f"lat={lat}&lon={lon}&units={units}&lang={language}&exclude={exclude}&appid="
+    
 
 
 @r.get("/weather")
@@ -36,12 +49,12 @@ async def weather(
     json_location =  await client.query_url(url=geo_url)
     try:
         lat, lon = json_location[0]['lat'], json_location[0]['lon']
-        coordinates_string = f"lat={lat}&lon={lon}&appid={s.weather_api_key}"
+        weather_query = make_weather_url(lat, lon, q.exclude, q.units, q.lang)
+        weather_url = s.base_weather_url + weather_query + s.weather_api_key
     except KeyError:
         return {"ERROR": f"{q.location} not found"}
     
     # Weather API
-    weather_url = s.base_weather_url + coordinates_string
     return await client.query_url(weather_url)
 
     

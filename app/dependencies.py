@@ -37,8 +37,6 @@ class APIClient:
         return json_result
 
 
-
-
 @asynccontextmanager
 async def httpx_lifespan_client(app: FastAPI):
     APIClient.get_httpx_client()

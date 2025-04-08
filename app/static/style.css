@@ -5,7 +5,7 @@
 }
 
 body {
-    color:  #032433;
+    color:  #0a0b0c;
 }
 
 .flashbar ul {
@@ -71,7 +71,7 @@ body {
 }
 
 ion-icon {
-    color: #7f9691;
+    color: #090a0a;
     font-size: 2rem;
     --ionicon-stroke-width: 16px;
 }

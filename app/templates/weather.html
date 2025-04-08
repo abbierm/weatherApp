@@ -6,10 +6,11 @@
 
 {% block main %}
 
-<h1 style="text-align: center;">Weather App 🌦️</h1> 
-<div style="text-align: center;">
-	<h2>Weather for {{ location }}</h2>
-	
+<div class="header-row">
+        <h1>{{ location }} Weather</h1>
+        <ion-icon name="sunny"></ion-icon>
+    </div>
+<div>
 	<div class="weather-container">
 		<p>Temperature: {{ info.current.temp }}</p>
 		<p>Feels like: {{ info.current.feels_like }}</p>
