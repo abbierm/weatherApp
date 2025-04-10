@@ -4,8 +4,18 @@
     box-sizing: border-box;
 }
 
+
 body {
-    color:  #0a0b0c;
+    color: white;
+    background-color: #262930;
+    font-family: JetBrains Mono, Sans Serif;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+h1 {
+  font-size: 2rem;
+  color: white;
 }
 
 .flashbar ul {
@@ -24,45 +34,6 @@ body {
     padding: 10px;
 }
 
-.content-container {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    border: 1px solid black;
-    gap: .5rem;
-    padding: 15px;
-    background-color: #7f9691;
-    box-shadow: 5px 5px 4px #333232;
-}
-
-.form-table {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    tr {
-        height: 25px;
-    }
-
-    .inner-table-gap {
-        width: 20px;
-    }
-
-    .submit-table-row {
-        float: right;
-        vertical-align: center;
-    }
-}
-
 .header-row {
     display: flex;
     justify-content: center;
@@ -71,7 +42,35 @@ body {
 }
 
 ion-icon {
-    color: #090a0a;
+    color: #F4F6F7;
     font-size: 2rem;
     --ionicon-stroke-width: 16px;
+}
+
+/* Weather Form  */
+.form-container {
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #039386;
+  border-radius: 10px;
+  max-width: 450px;
+  box-shadow: 1px 5px 25px 1px #00000083;
+
+  input[text] {
+    border-radius: 5px;
+  }
+
+  div > label {
+    color: #F4F6F7;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }

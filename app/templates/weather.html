@@ -7,14 +7,14 @@
 {% block main %}
 
 <div class="header-row">
-        <h1>{{ location }} Weather</h1>
+        <h1>Weather for {{ location.title() }}</h1>
         <ion-icon name="sunny"></ion-icon>
     </div>
 <div>
 	<div class="weather-container">
-		<p>Temperature: {{ info.current.temp }}</p>
-		<p>Feels like: {{ info.current.feels_like }}</p>
-		<p>Wind: {{info.current.wind_speed }}</p>
+		<p>Temperature: {{ info.current.temp }}°</p>
+		<p>Feels like: {{ info.current.feels_like }}°</p>
+		<p>Wind: {{info.current.wind_speed }} mph</p>
 	</div>
 </div>
 

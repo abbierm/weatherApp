@@ -5,34 +5,24 @@
 {% endblock title %}
 
 {% block main %}
-<div class="content-container">
-    <div class="header-row">
-        <h1>Weather</h1>
-        <ion-icon name="sunny"></ion-icon>
-    </div>
-	<form action="/get_weather" method="post" class="form-container">
-        <table class="form-table">
-            <tr>
-                <td><label for="city">City</label></td>
-                <td class="inner-table-gap"></td>
-                <td><input type="text" name="city"></td>
-            </tr>
-            <tr>
-                <td><label for="state">State</label></td>
-                <td class="inner-table-gap"></td>
-                <td><label><input type="text" name="state"></label></td>
-            </tr>
-            <tr>
-                <td><label for="country">Country</label></td>
-                <td class="inner-table-gap"></td>
-                <td><input type="text" name="country"></td>
-            </tr>
-            <tr class="submit-table-row">
-                <td></td>
-                <td class="inner-table-gap"></td>
-                <td><input type="submit" value="Submit"></td>
-            </tr>
-        </table>
-</div>
+
+
+
+<form class="form-container" action="/get_weather", method="POST">
+  <div class="header-row">
+    <h1>WeatherApp</h1>
+    <ion-icon name="sunny"></ion-icon>
+  </div>
+  <div class="form-row">
+    <label for="location">Enter Location</label>
+    <input type="text" id="location" name="location">
+    
+    <input type="image" src="../static/submit.svg">
+    
+  </div>
+</form>
+
+      
+
 
 {% endblock main %}
