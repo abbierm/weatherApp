@@ -47,6 +47,10 @@ ion-icon {
     --ionicon-stroke-width: 16px;
 }
 
+#icon {
+  font-size: 3rem;
+}
+
 /* Weather Form  */
 .form-container {
   margin: 100px auto;
@@ -54,7 +58,7 @@ ion-icon {
   background-color: #039386;
   border-radius: 10px;
   max-width: 450px;
-  box-shadow: 1px 5px 25px 1px #00000083;
+  box-shadow: 1px 5px 25px 1px hsla(0, 0%, 0%, 0.514);
 
   input[text] {
     border-radius: 5px;
@@ -73,4 +77,34 @@ ion-icon {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+}
+
+/* weather page */
+.weather-dash {
+  margin: 100px auto;
+  max-width: 800px;
+  background-color: #039386;
+  box-shadow: 1px 5px 25px 1px hsla(0, 0%, 0%, 0.514);
+}
+
+.top-row-dash {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.top-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-center-weather-box {
+  text-align: center;
+  flex-basis: 50%;
+}
+
+.right-top-weather.box {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
 }

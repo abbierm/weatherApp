@@ -1,21 +1,44 @@
 {% extends "layout.html" %}
 
 {% block title %}
-	Your Weather
+Your Weather
 {% endblock title %}
 
 {% block main %}
-
-<div class="header-row">
-        <h1>Weather for {{ location.title() }}</h1>
-        <ion-icon name="sunny"></ion-icon>
+<div class="weather-dash">
+  <div class="top-row-dash">
+    <div class="top-left-container">
+      <div id="{{ info.lat }}-{{ info.lon }}">
+        {{ info["location"] }}
+      </div>
+      <div>
+        {{ info.date }}
+      </div>
+      <div>
+        {{ info.time }}
+      </div>
     </div>
-<div>
-	<div class="weather-container">
-		<p>Temperature: {{ info.current.temp }}°</p>
-		<p>Feels like: {{ info.current.feels_like }}°</p>
-		<p>Wind: {{info.current.wind_speed }} mph</p>
-	</div>
+
+    <div class="top-center-weather-box">
+      <h2>{{ info.temp }}°c</h2>
+    </div>
+
+    <div class="right-top-weather-box">
+      <div id="icon-name" hidden data-name="{{ info.description|replace(' ', '-') }}"></div>
+      <ion-icon name="" id="icon"></ion-icon>
+    </div>
+  </div>
+
+  <!-- Hourly -->
+  <div class="middle-row-dash">
+    <div></div>
+  </div>
+
+
+  <!-- daily -->
+  <div class="last-row-dash">
+
+  </div>
 </div>
 
 {% endblock main %}

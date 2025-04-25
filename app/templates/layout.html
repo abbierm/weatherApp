@@ -8,6 +8,7 @@
         <style>
           @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
         </style>
+        <script src="{{ url_for('static', path='main.js') }}"></script>
         <title> 
             WeatherApp: {% block title %}{% endblock %} 
         </title>
@@ -26,6 +27,8 @@
         
         {% block main %}{% endblock main %}
 
-        <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@latest/dist/ionicons/ionicons.esm.js"></script> 
+        
+        <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@latest/dist/ionicons/ionicons.esm.js"></script>
+        <script defer src="{{ url_for('static', path='main.js') }}"></script>
     </body>
 </html>

@@ -3,9 +3,10 @@ from fastapi import Request, Depends, Form
 from app.website import website_router as r
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from ..dependencies import APIClient
+from ..dependencies import APIClient, cull_weather_info
 from pydantic import BaseModel
 import jinja2
+import pprint
 
 
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader("app/templates"), auto_reload=True)
@@ -42,7 +43,7 @@ async def get_weather(
     # Geo coordinates
     geo_url = s.base_geocoding_url + form_data.parsed_location + "&api_key=" + s.geocoding_api_key
     json_location = await client.query_url(url=geo_url)
-	
+
 	# Grab lat and lon
     try:
         lat, lon = json_location[0]['lat'], json_location[0]['lon']
@@ -52,13 +53,17 @@ async def get_weather(
         return {"ERROR": f"{form_data.location} not found"}
 	
 	# Weather API
-    weather_url = f"{s.base_weather_url}&units=imperial&exclude=minutely&{coordinates_string}"
+    weather_url = f"{s.base_weather_url}&units=metric&exclude=minutely&{coordinates_string}"
     json_weather = await client.query_url(url=weather_url)
+    
+    # TODO: Parse Weather into JUST the stuff needed 
+    formatted_weather_dict = cull_weather_info(json_weather, form_data.location)
+
+    pprint.pprint(formatted_weather_dict)
     return templates.TemplateResponse(
 		"weather.html",
         {
             "request": request,
-            "location": form_data.location,
-            "info": json_weather
+            "info": formatted_weather_dict
         }
     )
