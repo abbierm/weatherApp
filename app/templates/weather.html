@@ -20,12 +20,16 @@ Your Weather
     </div>
 
     <div class="top-center-weather-box">
-      <h2>{{ info.temp }}°c</h2>
+      <h2 class="large-temp">{{ info.temp }}°C</h2>
+        <div class="middle-description">
+            {{ info.description }}
+        </div>
     </div>
 
     <div class="right-top-weather-box">
       <div id="icon-name" hidden data-name="{{ info.description|replace(' ', '-') }}"></div>
       <ion-icon name="" id="icon"></ion-icon>
+      
     </div>
   </div>
 

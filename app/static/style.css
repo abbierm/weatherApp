@@ -84,6 +84,7 @@ ion-icon {
   margin: 100px auto;
   max-width: 800px;
   background-color: #039386;
+  border-radius: 15px;
   box-shadow: 1px 5px 25px 1px hsla(0, 0%, 0%, 0.514);
 }
 
@@ -103,8 +104,19 @@ ion-icon {
   flex-basis: 50%;
 }
 
+.middle-description {
+    font-size: 1.2rem;
+    margin-top: 0rem;
+
+
+}
+
+.large-temp {
+    margin: .5rem .5rem .1rem .5rem;
+}
+
 .right-top-weather.box {
-  text-align: right;
   display: flex;
   flex-direction: column;
+  text-align: right;
 }

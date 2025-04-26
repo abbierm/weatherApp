@@ -3,13 +3,15 @@ from fastapi import Request, Depends, Form
 from app.website import website_router as r
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from ..dependencies import APIClient, cull_weather_info
+from ..dependencies import APIClient, cull_weather_info, format_location
 from pydantic import BaseModel
 import jinja2
-import pprint
 
 
-jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader("app/templates"), auto_reload=True)
+jinja_env = jinja2.Environment(
+                                loader=jinja2.FileSystemLoader("app/templates"),
+                                auto_reload=True
+                            )
 
 templates = Jinja2Templates(env=jinja_env)
 
@@ -28,6 +30,7 @@ class LocationForm(BaseModel):
         cls,
         location: str = Form(...)
     ):
+        """Turns location input into string formatted for api query"""
         parsed_location = location.replace(", ", "+").replace(" ", "+")
         return cls(location=location, parsed_location=parsed_location)
         
@@ -44,22 +47,21 @@ async def get_weather(
     geo_url = s.base_geocoding_url + form_data.parsed_location + "&api_key=" + s.geocoding_api_key
     json_location = await client.query_url(url=geo_url)
 
-	# Grab lat and lon
+	# Grab lat and lon from grocoding response
     try:
         lat, lon = json_location[0]['lat'], json_location[0]['lon']
         coordinates_string = f"lat={lat}&lon={lon}&appid={s.weather_api_key}"
     except KeyError or IndexError:
         # TODO: Turn this into flash message
         return {"ERROR": f"{form_data.location} not found"}
-	
-	# Weather API
+    	
+	# Weather API 
     weather_url = f"{s.base_weather_url}&units=metric&exclude=minutely&{coordinates_string}"
     json_weather = await client.query_url(url=weather_url)
     
-    # TODO: Parse Weather into JUST the stuff needed 
-    formatted_weather_dict = cull_weather_info(json_weather, form_data.location)
+    # Cull large weather response just for needed entities
+    formatted_weather_dict = cull_weather_info(json_weather, json_location[0]['display_name'])
 
-    pprint.pprint(formatted_weather_dict)
     return templates.TemplateResponse(
 		"weather.html",
         {

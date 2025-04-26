@@ -3,6 +3,7 @@ import httpx
 from typing import Optional
 from contextlib import asynccontextmanager
 from datetime import datetime
+from .us_lookups import states
 
 
 class APIClient:
@@ -62,7 +63,7 @@ def get_wind_direction(deg: int) -> str:
                     315: "NW",
                     360: "N"
     }
-    if not isinstance(deg, float) or not isinstance(deg, int):
+    if not isinstance(deg, float) and not isinstance(deg, int):
         return 'N/A'
     if deg > 360 or deg < 0:
         return 'N/A'
@@ -77,6 +78,7 @@ def cull_weather_info(
         w: dict, 
         location: str
 ) -> dict:
+    # pprint(w["current"])
     """
     {
         
@@ -95,6 +97,7 @@ def cull_weather_info(
                 {1: {"high-temp": int, "low-temp": int,"icon": str}, ...}
     }
     """
+    
     # Current Weather
     weather: dict = {"hourly": {}, "daily": {}}
     weather["temp"] = w["current"]["temp"]    
@@ -102,11 +105,11 @@ def cull_weather_info(
     weather["description"] = w["current"]["weather"][0]["description"]
     dt = datetime.fromtimestamp(w["current"]["dt"])
     # always putting in normal time format
-    weather["time"] = dt.strftime("%new_dayI:%M %p")
-    weather["date"] = dt.strftime("%a, %b, %d %Y")
-    weather["location"] = location
+    weather["time"] = dt.strftime("%I:%M %p")
+    weather["date"] = dt.strftime("%a, %b, %d")
+    weather["location"] = format_location(location)
     weather["windspeed"] = w["current"]["wind_speed"]
-    weather["wind-direction"] = get_wind_direction(w["current"]["wind_deg"])
+    weather["wind_direction"] = get_wind_direction(w["current"]["wind_deg"])
     
     #  Hourly
     for i in range(5):
@@ -133,4 +136,15 @@ def cull_weather_info(
     return weather
 
 
+    
+def format_location(location_input: str) -> str:
+    jurisdictions = location_input.split(", ")
+    new_location = jurisdictions[0]
+    if jurisdictions[-1].lower() == "united states":
+        try:
+            state = states[jurisdictions[-2]]
+            return new_location + ", " + state
+        except KeyError:
+            pass
+    return new_location + ", " + jurisdictions[-1]
     
