@@ -8,30 +8,45 @@ Your Weather
 <div class="weather-dash">
   <div class="top-row-dash">
     <div class="top-left-container">
-      <div id="{{ info.lat }}-{{ info.lon }}">
+      <div>
         {{ info["location"] }}
       </div>
       <div>
         {{ info.date }}
       </div>
-      <div>
-        {{ info.time }}
+      <div id="hours" data-name="{{ info.hours }}">
+        {{ info.readable_time }}
       </div>
     </div>
-
+    <div class="weather-dash-spacer"></div>
     <div class="top-center-weather-box">
-      <h2 class="large-temp">{{ info.temp }}°C</h2>
+        <div class="big-icon-container">
+            {{ info.icon |safe }}
+            <div class="large-temp">
+                {{ info.temp|round|int }}°C
+            </div>
+        </div>
+      
         <div class="middle-description">
+           
             {{ info.description }}
         </div>
     </div>
-
+    <div class="weather-dash-spacer"></div>
     <div class="right-top-weather-box">
-      <div id="icon-name" hidden data-name="{{ info.description|replace(' ', '-') }}"></div>
-      <ion-icon name="" id="icon"></ion-icon>
-      
+        <div>
+            Feels like: {{ info.feels_like|round|int }} °C
+        </div>
+        <div>
+            Humidity: {{ info.humidity }}%
+        </div>
+        <div>
+            Wind: {{ info.windspeed|round|int }} km/h {{ info.wind_direction }}
+        </div>
+        <div>
+            Pressure: {{ info.pressure }} mbar
+        </div>
     </div>
-  </div>
 
   <!-- Hourly -->
   <div class="middle-row-dash">

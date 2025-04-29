@@ -1,7 +1,7 @@
 # routes for the api via /api/weather?city={userscity}
 from fastapi import Request, Depends
 from app.api import api_router as r
-from ..dependencies import APIClient
+from ..dependencies.api_client import APIClient
 from typing import Optional, Literal
 from pydantic import BaseModel
 

@@ -39,6 +39,10 @@ h1 {
     justify-content: center;
     gap: 1rem;
     align-items: center;
+
+    h1 {
+        margin: 10px 0px;
+    }
 }
 
 ion-icon {
@@ -54,69 +58,119 @@ ion-icon {
 /* Weather Form  */
 .form-container {
   margin: 100px auto;
-  padding: 20px;
+  padding: 20px 10px;
   background-color: #039386;
   border-radius: 10px;
   max-width: 450px;
   box-shadow: 1px 5px 25px 1px hsla(0, 0%, 0%, 0.514);
 
-  input[text] {
-    border-radius: 5px;
+    .form-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 20px 15px 20px;
   }
 
-  div > label {
-    color: #F4F6F7;
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
+    div > label {
+      color: #F4F6F7;
+      font-weight: bold;
+      font-size: .8rem;
+      margin-right: auto;
+      max-width: 80px;
+   }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .location-input {
+      border-radius: 5px;
+    }
+
+    .submit-icon {
+      margin-left: auto;
+    }
 }
 
-.form-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
+
 
 /* weather page */
 .weather-dash {
   margin: 100px auto;
-  max-width: 800px;
+  max-width: 900px;
   background-color: #039386;
   border-radius: 15px;
   box-shadow: 1px 5px 25px 1px hsla(0, 0%, 0%, 0.514);
 }
 
+.weather-dash-spacer {
+    flex: 1;
+}
+
 .top-row-dash {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
 }
 
-.top-left {
+.top-left-container {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+  max-width: 25%;
 }
 
 .top-center-weather-box {
   text-align: center;
-  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 20px;
+  max-width: 40%;
+}
+
+.big-icon-container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.big-icon {
+    max-width: 100px;
+    margin-right: -7px;
+}
+
+.big-io-icon {
+    margin-right: 10px;
+    font-size: 4rem;
 }
 
 .middle-description {
     font-size: 1.2rem;
     margin-top: 0rem;
-
+    display: flex;
+    flex-direction: column;
 
 }
 
 .large-temp {
-    margin: .5rem .5rem .1rem .5rem;
+    font-size: 3rem;
+    font-weight: bold;
 }
 
-.right-top-weather.box {
+.right-top-weather-box {  
   display: flex;
-  flex-direction: column;
   text-align: right;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 25%;
+  flex-wrap: nowrap;
+  margin-left: 10px;
+  font-size: .8rem;
 }
+

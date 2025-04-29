@@ -3,7 +3,8 @@ from fastapi import Request, Depends, Form
 from app.website import website_router as r
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from ..dependencies import APIClient, cull_weather_info, format_location
+from ..dependencies.api_client import APIClient
+from ..dependencies.weather_data_util import format_weather_info
 from pydantic import BaseModel
 import jinja2
 
@@ -60,7 +61,7 @@ async def get_weather(
     json_weather = await client.query_url(url=weather_url)
     
     # Cull large weather response just for needed entities
-    formatted_weather_dict = cull_weather_info(json_weather, json_location[0]['display_name'])
+    formatted_weather_dict = format_weather_info(json_weather, json_location[0]['display_name'])
 
     return templates.TemplateResponse(
 		"weather.html",

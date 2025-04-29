@@ -5,7 +5,7 @@ from .api import api_router
 from .static import static_router
 from pydantic_settings import BaseSettings
 from config import Settings
-from .dependencies import httpx_lifespan_client
+from .dependencies.api_client import httpx_lifespan_client
 
 
 def create_app(settings: BaseSettings = Settings):
