@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from .us_lookups import states
+from pprint import pprint
 
 """
 Helper functions that take the data returned 
@@ -18,7 +19,6 @@ io_icons = {
     "broken clouds": ("cloudy", "cloudy-night"),
     "overcast clouds": ("cloudy", "cloudy"),   
 
-
     # rainy
     "shower rain": ("rainy", "umbrella"), 
     "rain": ("rainy", "umbrella"),
@@ -26,51 +26,30 @@ io_icons = {
     "moderate rain": ("rainy", "umbrella"), 
     "heavy intensity rain": ("rainy", "umbrella"),
     
-    
-
     # thunderstormy
     "thunderstorm": ("thunderstorm", "thunderstorm"),
     "thunderstorm with heavy rain":  ("thunderstorm", "thunderstorm"),
     "thunderstorm with rain":  ("thunderstorm", "thunderstorm"),
 
-
     # snowy
     "snow": ("snow", "snow"), 
-
 
     # foggy
     "mist": ("menu", "menu"),  
     "haze": ("menu", "menu"), 
-
-    
-    
 }
 
-icons = {
-    "heavy intensity rain": ("heavyRain.svg", "NightRainHeavy.svg"),
-    "shower rain": ("heavyRain.svg", "NightRainHeavy.svg"), 
-    "rain": ("heavyRain.svg", "NightRainHeavy.svg"),
-    "moderate rain": ("heavyRain.svg", "NightRainHeavy.svg"),
-    "light rain": ("heavyRain.svg", "NightRainHeavy.svg"),
-    "thunderstorm": ("heavyRain.svg", "NightRainHeavy.svg"),
-    "very heavy rain": ("heavyRain.svg", "NightRainHeavy.svg"),
-}
 
 def select_icon(description: str, time: int) -> str:
     """Returns the html for adding the icon to the homepage. """
     t = 0
-    print(description)
     if time >= 21 or time < 6:
         t = 1
     try:
-        icon = icons[description][t]
-        return f'<img src="../../static/icons/{icon}" class="big-icon">'
+        icon = io_icons[description][t]
+        icon_string = f'<ion-icon name="{icon}"'
+        return icon_string
     except KeyError:
-        try:
-            icon = io_icons[description][t]
-            icon_string = f'<ion-icon name="{icon}" class="big-io-icon"></ion-icon>'
-            return icon_string
-        except KeyError:
             return ""
         
 
@@ -117,39 +96,42 @@ def format_weather_info(
     tz = timezone(timedelta(hours=int(w["timezone_offset"] / 3600)))
     dt = datetime.fromtimestamp(weather["dt"], tz)
     weather["hours"] = dt.hour
-    weather["icon"] = select_icon(weather["description"], weather["hours"])
-    # always putting in normal time format
+    weather["icon"] = select_icon(weather["description"], weather["hours"]) + \
+                                        'class="big-io-icon"></ion-icon>'
     weather["readable_time"] = dt.strftime("%I:%M %p")
-    
     weather["date"] = dt.strftime("%a, %b, %d")
     weather["location"] = format_location(location)
     weather["windspeed"] = w["current"]["wind_speed"]
     weather["wind_direction"] = get_wind_direction(w["current"]["wind_deg"])
     
     #  Hourly
-    for i in range(5):
+    for i in range(1, 6):
         h = w["hourly"][i]
         new = {}
-        ht = datetime.fromtimestamp(h["dt"])
+        ht = datetime.fromtimestamp(h["dt"], tz)
         new["time"] = ht.strftime("%I %p")
         new["temp"] = h["temp"]
-        new["icon"] = h["weather"][0]["description"]
+        new["icon"] = select_icon(
+                                    h["weather"][0]["description"], 
+                                    weather["hours"] + i + 1
+                                ) + \
+                        'class="hour-io-icon"></ion-icon>'
         weather["hourly"][i + 1] = new
 
     # daily
-    for i in range(7):
+    for i in range(1, 8):
         d = w["daily"][i]
         new_day = {}
         date_time = datetime.fromtimestamp(d["dt"])
-        new_day["month_abr"] = date_time.strftime("%a")
-        new_day["month"] = date_time.strftime("%m")
+        new_day["day_name"] = date_time.strftime("%a")
+        new_day["month"] = date_time.strftime("%b")
         new_day["day"] = date_time.strftime("%d")
         new_day["high"] = d["temp"]["max"]
         new_day["low"] = d["temp"]["min"]
+        new_day["icon"] = select_icon(d["weather"][0]["description"], 12) + 'class="daily-ion-icon"></ion-icon>'
         weather["daily"][i + 1] = new_day
 
     return weather
-
 
     
 def format_location(location_input: str) -> str:

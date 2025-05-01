@@ -6,10 +6,12 @@ Your Weather
 
 {% block main %}
 <div class="weather-dash">
+
+  <!-- Today Weather info -->
   <div class="top-row-dash">
     <div class="top-left-container">
       <div>
-        {{ info["location"] }}
+        {{ info.location }}
       </div>
       <div>
         {{ info.date }}
@@ -28,7 +30,6 @@ Your Weather
         </div>
       
         <div class="middle-description">
-           
             {{ info.description }}
         </div>
     </div>
@@ -47,17 +48,44 @@ Your Weather
             Pressure: {{ info.pressure }} mbar
         </div>
     </div>
+  </div>
 
-  <!-- Hourly -->
+
+  <!-- Hourly Info Row-->
   <div class="middle-row-dash">
-    <div></div>
+    {% for h, data in info.hourly.items() %}
+    <div class="hour-container">
+        
+      <div class="hour-time">{{ data.time }}</div>
+        
+      <div class="hour-icon-container">
+        {{ data.icon|safe }}
+        <div>{{ data.temp|round|int }}°C</div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 
-
-  <!-- daily -->
+  <!-- Daily Row -->
   <div class="last-row-dash">
-
+    {% for i, day in info.daily.items() %}
+    <div class="day-container">
+      <div class="daily-date-container">
+        {{ day.day_name }} {{ day.month }} {{ day.day }}
+      </div>
+      <div class="daily-icon-temp-container">
+        {{ day.icon|safe }}
+        <div class="daily-spacer"></div>
+        <div class="daily-highs-lows-container">
+          <div>{{ day.high|round|int }}°C</div>
+          <div>{{ day.low|round|int }}°C</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
+
+   
 </div>
 
 {% endblock main %}

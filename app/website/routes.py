@@ -9,6 +9,7 @@ from pydantic import BaseModel
 import jinja2
 
 
+
 jinja_env = jinja2.Environment(
                                 loader=jinja2.FileSystemLoader("app/templates"),
                                 auto_reload=True
