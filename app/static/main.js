@@ -1,33 +1,38 @@
-var dayWeatherIcons = {"clear": "sunny", "few-clouds": "sunny", "scattered-clouds": "cloudy", "shower-rain": "rainy", "rain": "rainy", "thunderstorm": "thunderstorm", "clear-sky": "sunny", "broken-clouds": "cloudy", "snow": "snow", "mist": "menu", "overcast-clouds": "cloudy", "haze": "menu", "light-rain": "rainy", "moderate-rain": "rainy", "heavy-intensity-rain": "rainy"
-};
 
-var nightWeatherIcons = {"clear": "moon", "few-clouds": "cloudy-night", "scattered-clouds": "cloudy-night", "shower-rain": "umbrella", "rain": "umbrella", "thunderstorm": "thunderstorm", "clear-sky": "moon", "broken-clouds": "cloudy-night", "snow": "snow", "mist": "menu", "cloudy": "cloudy-night", "haze": "menu", "overcast-clouds": "cloudy", "light-rain": "umbrella", "moderate-rain": "umbrella", "heavy-intensity-rain": "rainy"};
+let celsius = true;
 
 
+function convertToCelsius(temp) {
+    return Math.round((temp - 32) * (5 / 9));
+}
+
+function convertToFahrenheit(temp) {
+    return Math.round((temp * 1.8) + 32);
+}
 
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     // gets the correct 'icon' to appear
-//     const iconInfo = document.getElementById("icon-name");
-//     const hourInfo = document.getElementById("hours");
-//     if (iconInfo) {
-//         var key = iconInfo.dataset.name;
-
-//         // Doing this until I've made all of the icons
-//         var iconName;
-//         if (homeMadeIconsDay[key]) {
-//             iconName = homeMadeIconsDay[key];
-//         }
-//         else {
-//             var iconName = dayWeatherIcons[key];
-//             var hours = hourInfo.dataset.name;
-//             if (hours > 20 || hours < 6) {
-//                 iconName = nightWeatherIcons[key];
-//             }     
-//             else {
-//                 iconName = dayWeatherIcons[key];
-//             }
-//         }    
-//         document.getElementById("icon").setAttribute("name", iconName);
-//     }
-// });
+function toggleTempUnits() {
+    var currentTemps = document.querySelectorAll(".temp");
+    var currentUnits = document.querySelectorAll(".units")
+    if (!celsius) {
+        currentTemps.forEach((el, index) => {
+            var newTemp = convertToCelsius(Number(el.innerHTML));
+            el.innerHTML = newTemp;
+        })
+        currentUnits.forEach((units, index) => {
+            units.innerHTML = '°C';
+        })
+        celsius = true;
+    }
+    else {
+        currentTemps.forEach((el, i) => {
+            var temp = convertToFahrenheit(Number(el.innerHTML));
+            el.innerHTML = temp;
+        })
+        currentUnits.forEach((un, i) => {
+            un.innerHTML ='°F';
+        })
+        celsius = false;
+    }
+    
+}

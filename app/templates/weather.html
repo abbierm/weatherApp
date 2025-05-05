@@ -24,8 +24,8 @@ Your Weather
     <div class="top-center-weather-box">
         <div class="big-icon-container">
             {{ info.icon |safe }}
-            <div class="large-temp">
-                {{ info.temp|round|int }}°C
+            <div class="large-temp" onClick="toggleTempUnits()" data-name="{{ info.temp }}" id="temp-toggle">
+              <span class="temp">{{ info.temp|round|int }}</span><span class="units">°C</span>
             </div>
         </div>
       
@@ -36,7 +36,7 @@ Your Weather
     <div class="weather-dash-spacer"></div>
     <div class="right-top-weather-box">
         <div>
-            Feels like: {{ info.feels_like|round|int }} °C
+          Feels like: <span class="temp">{{ info.feels_like|round|int }} </span><span class="units">°C</span>
         </div>
         <div>
             Humidity: {{ info.humidity }}%
@@ -60,7 +60,9 @@ Your Weather
         
       <div class="hour-icon-container">
         {{ data.icon|safe }}
-        <div>{{ data.temp|round|int }}°C</div>
+        <div>
+          <span class="temp">{{ data.temp|round|int }}</span><span class="units">°C</span> 
+        </div>
       </div>
     </div>
     {% endfor %}
@@ -76,8 +78,12 @@ Your Weather
       <div class="daily-icon-temp-container">
         {{ day.icon|safe }}
         <div class="daily-highs-lows-container">
-          <div>{{ day.high|round|int }}°C</div>
-          <div>{{ day.low|round|int }}°C</div>
+          <div>
+            <span class="temp">{{ day.high|round|int }}</span><span class="units">°C</span>  
+          </div>
+          <div>
+            <span class="temp">{{ day.low|round|int }}</span><span class="units">°C</span>
+          </div>
         </div>
       </div>
     </div>
