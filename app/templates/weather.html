@@ -24,11 +24,11 @@ Your Weather
     <div class="top-center-weather-box">
         <div class="big-icon-container">
             {{ info.icon |safe }}
-            <div class="large-temp" onClick="toggleTempUnits()" data-name="{{ info.temp }}" id="temp-toggle">
-              <span class="temp">{{ info.temp|round|int }}</span><span class="units">°C</span>
+            <div class="large-temp" id="temp-toggle">
+              <span class="temp">{{ info.temp|round|int }}</span>
+              <a href="#" onClick="toggleToCelsius()" data-name="{{ info.temp }}"  class="active" id="large-celsius">°C</a>|<a href="#" onClick="toggleToFahrenheit()" data-name="{{ info.temp }}"  class="inactive" id="large-fahrenheit">°F</a>
             </div>
         </div>
-      
         <div class="middle-description">
             {{ info.description }}
         </div>
@@ -42,10 +42,10 @@ Your Weather
             Humidity: {{ info.humidity }}%
         </div>
         <div>
-            Wind: {{ info.windspeed|round|int }} km/h {{ info.wind_direction }}
+            Wind: <span id="wind-speed" data-name="{{ info.windspeed }}">{{ info.windspeed|round|int }} kmh</span> {{ info.wind_direction }}
         </div>
         <div>
-            Pressure: {{ info.pressure }} mbar
+            Pressure: <span id="pressure" data-name="{{ info.pressure }}">{{ info.pressure }} mbar</span>
         </div>
     </div>
   </div>
@@ -55,9 +55,7 @@ Your Weather
   <div class="middle-row-dash">
     {% for h, data in info.hourly.items() %}
     <div class="hour-container">
-        
       <div class="hour-time">{{ data.time }}</div>
-        
       <div class="hour-icon-container">
         {{ data.icon|safe }}
         <div>

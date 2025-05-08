@@ -73,7 +73,7 @@ ion-icon {
   }
 
     div > label {
-      color: #F4F6F7;
+      color: #f4f6f7;
       font-weight: bold;
       font-size: .8rem;
       margin-right: auto;
@@ -155,8 +155,24 @@ ion-icon {
 }
 
 .large-temp {
-    font-size: 3rem;
+    font-size: 2.2rem;
     font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+}
+
+.active {
+    color: #f4f6f7;
+}
+
+.inactive {
+    color: hsla(200, 14%, 96%, 0.301);
+}
+
+.inactive:hover {
+    color: #f4f6f7;
 }
 
 .right-top-weather-box {  
