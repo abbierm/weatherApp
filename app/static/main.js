@@ -73,7 +73,7 @@ function toggleToFahrenheit() {
         // change the pressure
         let pressureElement = document.getElementById("pressure");
         let p = pressureElement.dataset.name;
-        pressureElement.innerHTML = convertToPsi(p) + ' psi';
+        pressureElement.innerHTML = convertToPsi(p) + ' in';
 
         // change windspeed
         let windSpeedE = document.getElementById("wind-speed");
