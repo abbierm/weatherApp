@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.exceptions import RequestValidationError
 from .website import website_router
 from .api import api_router
 from .static import static_router
 from pydantic_settings import BaseSettings
 from config import Settings
 from .dependencies.api_client import httpx_lifespan_client
+from .errors.handlers import register_exception_handlers
+
 
 
 def create_app(settings: BaseSettings = Settings):
@@ -23,5 +26,7 @@ def create_app(settings: BaseSettings = Settings):
     app.include_router(website_router)
 
     app.include_router(api_router)
+
+    register_exception_handlers(app)
 
     return app

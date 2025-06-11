@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 api_router = APIRouter(
-    tags=["weatherAPI"],
+    tags=["api", "weather"],
     prefix="/api"
 )
 

@@ -26,7 +26,7 @@ Your Weather
             {{ info.icon |safe }}
             <div class="large-temp" id="temp-toggle">
               <span class="temp">{{ info.temp|round|int }}</span>
-              <a href="#" onClick="toggleToCelsius()" data-name="{{ info.temp }}"  class="active" id="large-celsius">°C</a>|<a href="#" onClick="toggleToFahrenheit()" data-name="{{ info.temp }}"  class="inactive" id="large-fahrenheit">°F</a>
+              <a href="#" onClick="toggleToCelsius()" data-name="{{ info.temp }}"  class="active" id="large-celsius">°C</a> | <a href="#" onClick="toggleToFahrenheit()" data-name="{{ info.temp }}"  class="inactive" id="large-fahrenheit">°F</a>
             </div>
         </div>
         <div class="middle-description">
@@ -42,7 +42,7 @@ Your Weather
             Humidity: {{ info.humidity }}%
         </div>
         <div>
-            Wind: <span id="wind-speed" data-name="{{ info.windspeed }}">{{ info.windspeed|round|int }} kmh</span> {{ info.wind_direction }}
+            Wind: <span id="wind-speed" data-name="{{ info.windspeed }}">{{ info.windspeed|round|int }} km/h</span> {{ info.wind_direction }}
         </div>
         <div>
             Pressure: <span id="pressure" data-name="{{ info.pressure }}">{{ info.pressure }} mbar</span>
