@@ -11,7 +11,7 @@ used on 'weather.html' result's widget
 io_icons = {
     # clear
     "clear": ("sunny", "moon"),
-    "clear sky": ("sunny", ""),  
+    "clear sky": ("sunny", "moon"),  
     "few clouds": ("sunny", "moon"), 
 
     # cloudy
@@ -26,7 +26,7 @@ io_icons = {
     "moderate rain": ("rainy", "umbrella"), 
     "heavy intensity rain": ("rainy", "umbrella"),
     
-    # thunderstormy
+    # thunderstorms
     "thunderstorm": ("thunderstorm", "thunderstorm"),
     "thunderstorm with heavy rain":  ("thunderstorm", "thunderstorm"),
     "thunderstorm with rain":  ("thunderstorm", "thunderstorm"),
@@ -50,6 +50,7 @@ def select_icon(description: str, time: int) -> str:
         icon_string = f'<ion-icon name="{icon}"'
         return icon_string
     except KeyError:
+            print(description)
             return ""
         
 
@@ -86,7 +87,10 @@ def format_weather_info(
 ) -> dict:    
     # Current Weather
     weather: dict = {"hourly": {}, "daily": {}}
-    weather["temp"] = w["current"]["temp"]    
+    weather["temp"] = w["current"]["temp"]
+    weather["temp-units"] = "°C"
+    weather["windvelo-units"] = "kph"
+    weather["pressure-units"] = "mbar"
     weather["humidity"] = w["current"]["humidity"]    
     weather["description"] = w["current"]["weather"][0]["description"]
     

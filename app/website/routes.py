@@ -45,6 +45,7 @@ async def get_weather(
 ):
 	# config settings
     s = request.app.state.settings
+    
     # Geo coordinates
     geo_url = s.base_geocoding_url + form_data.parsed_location + "&api_key=" + s.geocoding_api_key
     json_location = await client.query_url(url=geo_url)
@@ -68,7 +69,7 @@ async def get_weather(
     formatted_weather_dict = format_weather_info(json_weather, json_location[0]['display_name'])
 
     return templates.TemplateResponse(
-		"weather.html",
+		"weather_flex.html",
         {
             "request": request,
             "info": formatted_weather_dict

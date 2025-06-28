@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Weather for {{ info.location }}
+{% endblock title%}
+
+{% block main %}
+
+<div class="card">
+	<div id="top-card-top-row">
+		<div id="large-location">{{ info.location }}</div>
+		<div id="hours" data-name="{{ info.hours }}">{{ info.readable_time }}</div>
+	</div>
+	<div class="top-r2">
+		<div id="top-2r-r">
+			<div id="large-icon">
+				{{ info.icon|safe }}
+			</div>
+			<div id="large-temp-toggle-button">
+				&nbsp;<span class="temp" data-name="{{ info.temp|round|int }}"></span> | <button id="top-r2-lc-degree-toggle-button" onClick="toggleUnits()">°F</button>
+			</div>
+		</div>
+		<div id="top-2r-l">
+			<div class="top-2r-row">
+				<div class="top-2r-label">Feels Like</div>
+				<div class="top-r2-rc-spacer"></div>
+				<div class="temp" data-name="{{ info.feels_like|round|int }}"></div>
+			</div>
+			<div class="top-2r-row">
+				<div class="top-2r-label">Humidity</div>
+				<div class="top-r2-rc-spacer"></div>
+				<div>{{ info.humidity }}%</div>
+			</div>
+			<div class="top-2r-row">
+				<div class="top-2r-label">Wind</div>
+				<div class="top-r2-rc-spacer"></div>
+				<div>
+					<span class="wind-velo" data-name="{{ info.windspeed }}"></span>&nbsp;{{ info.wind_direction }}
+				</div>
+			</div>
+			<div class="top-2r-row">
+				<div class="top-2r-label">Pressure</div>
+				<div class="top-r2-rc-spacer"></div>
+				<div>
+					<span class="pressure" data-name="{{ info.pressure }}"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock main%}
