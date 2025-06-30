@@ -52,7 +52,6 @@ async def get_weather(
     if len(json_location) == 0:
         raise HTTPException(status_code=422, detail=f"{form_data.location} not found")
 
-
 	# Grab lat and lon from geocoding response
     try:
         lat, lon = json_location[0]['lat'], json_location[0]['lon']
@@ -64,6 +63,7 @@ async def get_weather(
 	# Weather API 
     weather_url = f"{s.base_weather_url}&units=metric&exclude=minutely&{coordinates_string}"
     json_weather = await client.query_url(url=weather_url)
+    
     
     # Cull large weather response just for needed entities
     formatted_weather_dict = format_weather_info(json_weather, json_location[0]['display_name'])

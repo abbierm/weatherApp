@@ -10,7 +10,6 @@
 
     --primary-300: hsl(175, 26%, 61%);
     --primary-200: hsl(165, 34%, 66%);
-    /*--primary-100: hsl(101, 45%, 88%);*/
     --primary-100: hsl(161, 43%, 84%);
     
     --neutral-100: hsl(78, 12%, 79%);
@@ -49,7 +48,7 @@ body {
     background-position: top left;
     font-family: nunito-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin: 0 2rem;
-    padding: 10rem 2rem;
+    padding: 5rem 2rem;
 }
 
 h1 {
@@ -141,12 +140,13 @@ input#submit-button:hover {
    }
 
 .card {
+    font-size: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 2rem auto;
     max-width: 550px;
-    padding: 1rem 2rem;  
+    padding: 1rem 2.5rem;  
 }
 
 
@@ -228,4 +228,59 @@ input#submit-button:hover {
 
 .top-r2-rc-spacer {
     flex-basis: .75;
+}
+
+
+@media (max-width: 600px) {
+    body {
+        margin: 0 .5rem;
+        padding: 5rem 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    ion-icon {
+        font-size: 2.5rem;
+    }
+
+    .card {
+        max-width: 500px;
+        margin: .35rem auto;
+        padding: .6rem;
+        font-size: 1rem;
+    }
+
+    #large-location {
+        font-size: 1.25rem;
+        margin: .5rem;
+        padding-left: .45rem;
+    }
+
+    #large-icon {
+        font-size: 2rem;
+    }
+
+    #large-temp-toggle-button {
+        font-size: 1.34rem;
+    }
+
+    #top-r2-lc-degree-toggle-button {
+        font-size: 1.34rem;
+    }
+
+    #hours {
+        padding-right: .45rem;
+    }
+
+    .top-r2 {
+        padding: .25rem .45rem .35rem .45rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .card {
+        font-size: .8rem;
+    }
 }
