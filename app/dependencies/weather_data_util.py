@@ -88,9 +88,6 @@ def format_weather_info(
     # Current Weather
     weather: dict = {"hourly": {}, "daily": {}}
     weather["temp"] = w["current"]["temp"]
-    weather["temp-units"] = "°C"
-    weather["windvelo-units"] = "kph"
-    weather["pressure-units"] = "mbar"
     weather["humidity"] = w["current"]["humidity"]    
     weather["description"] = w["current"]["weather"][0]["description"]
     
