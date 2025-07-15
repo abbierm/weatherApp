@@ -106,7 +106,7 @@ def format_weather_info(
     weather["wind_direction"] = get_wind_direction(w["current"]["wind_deg"])
     
     #  Hourly
-    for i in range(1, 6):
+    for i in range(1, 12):
         h = w["hourly"][i]
         new = {}
         ht = datetime.fromtimestamp(h["dt"], tz)

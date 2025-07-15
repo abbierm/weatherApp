@@ -17,7 +17,7 @@ Weather for {{ info.location }}
 				{{ info.icon|safe }}
 			</div>
 			<div id="large-temp-toggle-button">
-				&nbsp;<span class="temp" data-name="{{ info.temp|round|int }}"></span> | <button id="top-r2-lc-degree-toggle-button" onClick="toggleUnits()">°F</button>
+				&nbsp;<span class="temp" data-name="{{ info.temp|round|int }}"></span> | <button id="top-r2-lc-degree-toggle-button" onClick="toggleUnits()">° F</button>
 			</div>
 		</div>
 		<div id="top-2r-l">
@@ -48,6 +48,27 @@ Weather for {{ info.location }}
 		</div>
 	</div>
 </div>
+
+<div class="card" id="hourly-card">
+	<h2 id="hourly-title">Hourly Weather</h2>
+	<div id="hours-carousel-wrapper">
+		<button class="hourly-list-arrow-btn" onClick="scrollCarousel(-1)">&lt;</button>
+		<div id="hours-carousel">
+			{% for t, hour in info.hourly.items() %}
+				<div class="single-hour">
+					<div>{{ hour.time }}</div>
+					<div>
+						<div class="temp" data-name="{{ hour.temp|round|int }}"></div>
+						<div>{{ hour.icon }}</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<button class="hourly-list-arrow-btn" onClick="scrollCarousel(1)">&gt;</button>
+	</div>
+</div>
+
+
 
 
 {% endblock main%}

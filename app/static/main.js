@@ -87,3 +87,10 @@ function toggleUnits() {
       localStorage.setItem("units", "metric");
    }
  }
+
+
+function scrollCarousel(direction) {
+   const carousel = document.getElementById("hours-carousel");
+   const scrollAmount = 220;
+   carousel.scrollBy({"left": direction * scrollAmount, "behavior": "smooth"});
+}
