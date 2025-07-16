@@ -48,7 +48,6 @@ function switchToMetric() {
    let currentTemps = document.querySelectorAll(".temp");
    for (let t of currentTemps) {
       let temp = t.dataset.name;
-      console.log(temp);
       t.innerHTML = `${temp} °C`;
    }
    
@@ -74,8 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
          switchToMetric();
       }
 })
-
-
 
 function toggleUnits() {
    if (localStorage.getItem("units") == "metric") {

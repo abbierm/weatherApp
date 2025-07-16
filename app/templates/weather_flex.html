@@ -52,7 +52,7 @@ Weather for {{ info.location }}
 <div class="card" id="hourly-card">
 	<h2 id="hourly-title">Hourly Weather</h2>
 	<div id="hours-carousel-wrapper">
-		<button class="hourly-list-arrow-btn" onClick="scrollCarousel(-1)">&lt;</button>
+		<button class="hourly-list-arrow-btn left-button" onClick="scrollCarousel(-1)">&lt;</button>
 		<div id="hours-carousel">
 			{% for t, hour in info.hourly.items() %}
 				<div class="single-hour">
@@ -64,7 +64,7 @@ Weather for {{ info.location }}
 				</div>
 			{% endfor %}
 		</div>
-		<button class="hourly-list-arrow-btn" onClick="scrollCarousel(1)">&gt;</button>
+		<button class="hourly-list-arrow-btn right-button" onClick="scrollCarousel(1)">&gt;</button>
 	</div>
 </div>
 

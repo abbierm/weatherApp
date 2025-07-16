@@ -23,6 +23,7 @@ io_icons = {
     "shower rain": ("rainy", "umbrella"), 
     "rain": ("rainy", "umbrella"),
     "light rain": ("rainy", "umbrella"),
+    "light intensity shower rain": ("rainy", "umbrella"),
     "moderate rain": ("rainy", "umbrella"), 
     "heavy intensity rain": ("rainy", "umbrella"),
     
@@ -43,14 +44,13 @@ io_icons = {
 def select_icon(description: str, time: int) -> str:
     """Returns the html for adding the icon to the homepage. """
     t = 0
-    if time >= 21 or time < 6:
+    if time >= 22 or time <= 6:
         t = 1
     try:
         icon = io_icons[description][t]
         icon_string = f'<ion-icon name="{icon}"'
         return icon_string
     except KeyError:
-            print(description)
             return ""
         
 
@@ -106,7 +106,7 @@ def format_weather_info(
     weather["wind_direction"] = get_wind_direction(w["current"]["wind_deg"])
     
     #  Hourly
-    for i in range(1, 12):
+    for i in range(1, 25):
         h = w["hourly"][i]
         new = {}
         ht = datetime.fromtimestamp(h["dt"], tz)
@@ -114,7 +114,7 @@ def format_weather_info(
         new["temp"] = h["temp"]
         new["icon"] = select_icon(
                                     h["weather"][0]["description"], 
-                                    weather["hours"] + i + 1
+                                    (weather["hours"] + i + 1) % 24
                                 ) + \
                         'class="hour-io-icon"></ion-icon>'
         weather["hourly"][i + 1] = new
