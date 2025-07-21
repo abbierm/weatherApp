@@ -32,7 +32,7 @@ class LocationForm(BaseModel):
         cls,
         location: str = Form(...)
     ):
-        """Turns location input into string formatted for api query"""
+        # Turns location input into string formatted for api query
         parsed_location = location.replace(", ", "+").replace(" ", "+")
         return cls(location=location, parsed_location=parsed_location)
         

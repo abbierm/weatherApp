@@ -50,7 +50,7 @@ Weather for {{ info.location }}
 </div>
 
 <div class="card" id="hourly-card">
-	<h2 id="hourly-title">Hourly Weather</h2>
+	<h2 class="card-title">Hourly Weather</h2>
 	<div id="hours-carousel-wrapper">
 		<button class="hourly-list-arrow-btn left-button" onClick="scrollCarousel(-1)">&lt;</button>
 		<div id="hours-carousel">
@@ -65,6 +65,30 @@ Weather for {{ info.location }}
 			{% endfor %}
 		</div>
 		<button class="hourly-list-arrow-btn right-button" onClick="scrollCarousel(1)">&gt;</button>
+	</div>
+</div>
+
+<div class="card" id="weekly-card">
+	<h2 class="card-title">7 Day Forecast</h2>
+	<div id="weekly-weather-wrapper">
+		{% for i, day in info.daily.items() %}
+		<div class="single-day-container">
+			<div class="day-date-box">
+				<div>
+					{{ day.day_name }} 
+				</div>
+				<div>
+					{{day.month }} {{ day.day }}
+				</div>
+			</div>
+			<div>
+				{{ day.icon|safe }}
+			</div>
+			<div class="highs-lows-container">
+				<div class="temp high-temp" data-name="{{ day.high|round|int }}"></div>&nbsp;&nbsp;<div class="temp" data-name="{{ day.low|round|int }}"></div>
+			</div>
+		</div>
+		{% endfor %}
 	</div>
 </div>
 
