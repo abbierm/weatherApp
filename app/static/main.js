@@ -25,7 +25,12 @@ function switchToImperial() {
    // converts the temps
    let currentTemps = document.querySelectorAll(".temp");
    for (let t of currentTemps) {
-      t.innerHTML =`${toFahrenheit(Number(t.dataset.name))} °F`;
+      t.innerHTML =`${toFahrenheit(Number(t.dataset.name))}`;
+   }
+
+   let currentTempUnits = document.querySelectorAll(".temp-units");
+   for (let tu of currentTempUnits) {
+      tu.innerHTML = '°F';
    }
   
    // Converts the pressure + units
@@ -48,7 +53,12 @@ function switchToMetric() {
    let currentTemps = document.querySelectorAll(".temp");
    for (let t of currentTemps) {
       let temp = t.dataset.name;
-      t.innerHTML = `${temp} °C`;
+      t.innerHTML = `${temp}`;
+   }
+
+   let currentTempUnits = document.querySelectorAll(".temp-units");
+   for (let tu of currentTempUnits) {
+      tu.innerHTML = '°C';
    }
    
    let currentPresssure = document.querySelectorAll(".pressure"); 

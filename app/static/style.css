@@ -308,8 +308,7 @@ single-hour:last-child {
 
 
 #weekly-card {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 0px;
 }
 
 #weekly-title {
@@ -331,12 +330,21 @@ single-hour:last-child {
     align-items: center;
 }
 
+.single-day-container:last-child {
+    border-bottom-left-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+}
+
 .day-date-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     align-items: center;
+}
+
+.day-icon-box {
+    margin-top: 3px;
 }
 
 .highs-lows-container {
@@ -346,8 +354,7 @@ single-hour:last-child {
 }
 
 .high-temp {
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-weight: 650;
 }
 
 

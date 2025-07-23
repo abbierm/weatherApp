@@ -17,14 +17,17 @@ Weather for {{ info.location }}
 				{{ info.icon|safe }}
 			</div>
 			<div id="large-temp-toggle-button">
-				&nbsp;<span class="temp" data-name="{{ info.temp|round|int }}"></span> | <button id="top-r2-lc-degree-toggle-button" onClick="toggleUnits()">° F</button>
+				&nbsp;<span class="temp" data-name="{{ info.temp|round|int }}"></span> <span class="temp-units"></span> | <button id="top-r2-lc-degree-toggle-button" onClick="toggleUnits()">°F</button>
 			</div>
 		</div>
 		<div id="top-2r-l">
 			<div class="top-2r-row">
 				<div class="top-2r-label">Feels Like</div>
 				<div class="top-r2-rc-spacer"></div>
-				<div class="temp" data-name="{{ info.feels_like|round|int }}"></div>
+				<div>
+					<span class="temp" data-name="{{ info.feels_like|round|int }}"></span>
+					<span class="temp-units"></span>
+				</div>
 			</div>
 			<div class="top-2r-row">
 				<div class="top-2r-label">Humidity</div>
@@ -58,7 +61,9 @@ Weather for {{ info.location }}
 				<div class="single-hour">
 					<div>{{ hour.time }}</div>
 					<div>
-						<div class="temp" data-name="{{ hour.temp|round|int }}"></div>
+						<div>
+							<span class="temp" data-name="{{ hour.temp|round|int }}"></span> <span class="temp-units"></span>
+						</div>
 						<div>{{ hour.icon }}</div>
 					</div>
 				</div>
@@ -81,11 +86,11 @@ Weather for {{ info.location }}
 					{{day.month }} {{ day.day }}
 				</div>
 			</div>
-			<div>
+			<div class="day-icon-box">
 				{{ day.icon|safe }}
 			</div>
 			<div class="highs-lows-container">
-				<div class="temp high-temp" data-name="{{ day.high|round|int }}"></div>&nbsp;&nbsp;<div class="temp" data-name="{{ day.low|round|int }}"></div>
+				<div class="temp high-temp" data-name="{{ day.high|round|int }}"></div>°&nbsp;/&nbsp;<div class="temp" data-name="{{ day.low|round|int }}"></div>°
 			</div>
 		</div>
 		{% endfor %}
