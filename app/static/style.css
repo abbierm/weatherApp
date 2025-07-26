@@ -69,8 +69,8 @@ h1 {
 }
 
 .flashbar-list {
-    background-color: var(--accent-400);
-    color: var(--neurtal-100);
+    background-color: var(--neurtal-100);
+    color: var(--accent-400);
     padding: 10px;
 }
 

@@ -8,14 +8,19 @@ from pydantic_settings import BaseSettings
 from config import Settings
 from .dependencies.api_client import httpx_lifespan_client
 from .errors.handlers import register_exception_handlers
+from starlette.middleware import Middleware
+from starlette.middleware.sessions import SessionMiddleware
 
 
 
 def create_app(settings: BaseSettings = Settings):
 
-    app = FastAPI(lifespan=httpx_lifespan_client)
-
     settings = settings()
+    
+    middleware = [Middleware(SessionMiddleware, secret_key=settings.secret_key)]
+    
+    app = FastAPI(lifespan=httpx_lifespan_client, middleware=middleware)
+
     app.state.settings = settings
 
     app.mount("/static", StaticFiles(directory="app/static"), name="static")

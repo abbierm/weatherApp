@@ -19,14 +19,15 @@
     </head>
  
     <body>
-        {% if flash %}
-            <div class="flashbar">
-                <ul>
-                    {% for m in flash.messages %}
-                        <li class="flashbar-list">{{ m }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+        {% set messages = get_flashed_messages(request) %}
+        {% if messages | length  > 0%}
+                <div class="flashbar">
+                    <ul>
+                        {% for msg in messages %}
+                            <li class="flashbar-list">{{ msg }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
         {% endif %}
         
         {% block main %}{% endblock main %}
