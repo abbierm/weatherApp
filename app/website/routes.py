@@ -11,7 +11,6 @@ from pydantic import BaseModel
 import jinja2
 
 
-
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader("app/templates"),
                                 auto_reload=True)
 
@@ -50,13 +49,6 @@ async def get_weather(
     geo_url = s.base_geocoding_url + form_data.parsed_location + "&api_key=" + s.geocoding_api_key
     json_location = await client.query_url(url=geo_url)
     if len(json_location) == 0:
-        raise HTTPException(status_code=422, detail=f"{form_data.location} not found")
-
-	# Grab lat and lon from geocoding response
-    try:
-        lat, lon = json_location[0]['lat'], json_location[0]['lon']
-        coordinates_string = f"lat={lat}&lon={lon}&appid={s.weather_api_key}"
-    except Exception as err:
         # TODO: Turn this into flash message
         return {"ERROR": f"{form_data.location} not found"}
     	

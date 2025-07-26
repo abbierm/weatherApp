@@ -9,7 +9,7 @@ class APIClient:
     @classmethod
     def get_httpx_client(cls) -> httpx.AsyncClient:
         if cls.httpx_client is None:
-            timeout = httpx.Timeout(timeout=10.0)
+            timeout = httpx.Timeout(timeout=5.0)
             limits = httpx.Limits(max_keepalive_connections=5,
 								    max_connections=10)
             cls.httpx_client = httpx.AsyncClient(timeout=timeout,
@@ -35,7 +35,6 @@ class APIClient:
         except Exception as e:
             return {"ERROR": str(e)}
         return json_result
-
 
 @asynccontextmanager
 async def httpx_lifespan_client(app: FastAPI):

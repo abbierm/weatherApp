@@ -18,7 +18,7 @@ def test_simple_valid_weather_request(test_client: TestClient):
 	respx.get("https://mock_geoco/search?q=New+York+City+NY+US&api_key=456fakegeokey").mock(
 		return_value=Response(200, json=[{"lat": "40.68","lon": "-74.05"}]))
 	respx.get("https://mock_openweatherapi/?lat=40.68&lon=-74.05&units=imperial&language=en&appid=123fakeweatherkey").mock(return_value=Response(200, json=mock_data.weather_data_1))
-	result = test_client.get(url="http://localhost:8080/api/weather?location=New+York+City+NY+US").json()
+	result = test_client.get(url="http://localhost:8080/api/weather/New+York+City+NY+US").json()
 	assert result is not None
 	assert result["lat"] == 40.68
 	assert result["current"]["temp"] == 62.89
@@ -31,9 +31,9 @@ def test_api_no_location_key(test_client: TestClient):
 	instead of 'api/weather?location=some+location') that location 
 	the user will get returned a 422 error & message saying as such
 	"""
-	results = test_client.get(url="http://localhost:8080/api/weather?New+York+City+NY+US")
+	results = test_client.get(url="http://localhost:8080/api/weather/New+York+City+NY+US")
 	assert results.status_code == 422
-	assert results.json()["message"] == "Missing required location parameter"
+	assert results.json()["detail"] == "Location Not Found"
 
 
 def test_api_no_location_value(test_client: TestClient):
@@ -43,5 +43,5 @@ def test_api_no_location_value(test_client: TestClient):
 	the user will get returned a 422 error with message
 	"""
 	result = test_client.get(url="http://localhost:8080/api/weather?location=")
-	assert result.status_code == 422
-	assert result.json()["detail"] == "missing location"
+	assert result.status_code == 400
+	assert result.json()["detail"] == "Missing location"
