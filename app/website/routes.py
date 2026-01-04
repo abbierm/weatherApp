@@ -83,7 +83,8 @@ async def get_weather(
     # Weather API didn't return response
     if "ERROR" in json_weather:
         flash(request, "WeatherAPI currently unavailable")
-        return templates.TemplateResponse("index.html", )
+        print(vars(request))
+        return templates.TemplateResponse("index.html", {"request": request})
 
     # Cull large weather response just for needed entities
     formatted_weather_dict = format_weather_info(json_weather, json_location[0]['display_name'])
