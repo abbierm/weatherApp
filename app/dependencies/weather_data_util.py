@@ -10,34 +10,31 @@ used on 'weather.html' result's widget
 
 io_icons = {
     # clear
-    "clear": ("sunny", "moon"),
-    "clear sky": ("sunny", "moon"),  
-    "few clouds": ("sunny", "moon"), 
+    "Clear": ("sunny", "moon"),
 
     # cloudy
-    "scattered clouds": ("cloudy", "cloudy-night"),
-    "broken clouds": ("cloudy", "cloudy-night"),
-    "overcast clouds": ("cloudy", "cloudy"),   
+    "Clouds": ("cloudy", "cloudy-night"),
 
     # rainy
-    "shower rain": ("rainy", "umbrella"), 
-    "rain": ("rainy", "umbrella"),
-    "light rain": ("rainy", "umbrella"),
-    "light intensity shower rain": ("rainy", "umbrella"),
-    "moderate rain": ("rainy", "umbrella"), 
-    "heavy intensity rain": ("rainy", "umbrella"),
-    
+    "Rain": ("rainy", "umbrella"),
+    "Drizzle": ("rainy", "umbrella"),
+
     # thunderstorms
-    "thunderstorm": ("thunderstorm", "thunderstorm"),
-    "thunderstorm with heavy rain":  ("thunderstorm", "thunderstorm"),
-    "thunderstorm with rain":  ("thunderstorm", "thunderstorm"),
+    "Thunderstorm": ("thunderstorm", "thunderstorm"),
 
     # snowy
-    "snow": ("snow", "snow"), 
+    "Snow": ("snow", "snow"), 
 
-    # foggy
-    "mist": ("menu", "menu"),  
-    "haze": ("menu", "menu"), 
+    # Atmosphere
+    "Mist": ("menu", "menu"),  
+    "Haze": ("menu", "menu"),
+    "Smoke": ("filter", "filter"),
+    "Fog": ("menu", "menu"),
+    "Sand": ("finger-print", "finger-print"),
+    "Dust": ("finger-print", "finger-print"),
+    "Ash": ("flame", "flame"),
+    "Squall": ("filter", "filter"),
+    "Tornado": ("filter", "filter")
 }
 
 
@@ -90,14 +87,13 @@ def format_weather_info(
     weather["temp"] = w["current"]["temp"]
     weather["humidity"] = w["current"]["humidity"]    
     weather["description"] = w["current"]["weather"][0]["description"]
-    
     weather["dt"] = w["current"]["dt"]
     weather["pressure"] = w["current"]["pressure"]
     weather["feels_like"] = w["current"]["feels_like"]
     tz = timezone(timedelta(hours=int(w["timezone_offset"] / 3600)))
     dt = datetime.fromtimestamp(weather["dt"], tz)
     weather["hours"] = dt.hour
-    weather["icon"] = select_icon(weather["description"], weather["hours"]) + \
+    weather["icon"] = select_icon(w["current"]["weather"][0]["main"], weather["hours"]) + \
                                         'class="big-io-icon"></ion-icon>'
     weather["readable_time"] = dt.strftime("%I:%M %p")
     weather["date"] = dt.strftime("%a, %b, %d")
@@ -113,7 +109,7 @@ def format_weather_info(
         new["time"] = ht.strftime("%I %p")
         new["temp"] = h["temp"]
         new["icon"] = select_icon(
-                                    h["weather"][0]["description"], 
+                                    h["weather"][0]["main"], 
                                     (weather["hours"] + i + 1) % 24
                                 ) + \
                         'class="hour-io-icon"></ion-icon>'
@@ -129,7 +125,7 @@ def format_weather_info(
         new_day["day"] = date_time.strftime("%d")
         new_day["high"] = d["temp"]["max"]
         new_day["low"] = d["temp"]["min"]
-        new_day["icon"] = select_icon(d["weather"][0]["description"], 12) + 'class="daily-ion-icon"></ion-icon>'
+        new_day["icon"] = select_icon(d["weather"][0]["main"], 12) + 'class="daily-ion-icon"></ion-icon>'
         weather["daily"][i + 1] = new_day
 
     return weather

@@ -276,6 +276,11 @@ input#submit-button:hover {
     gap: .45rem;
 }
 
+.hour-io-icon {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+}
+
 single-hour:first-child {
     border-bottom-left-radius: .8rem;
 }
@@ -356,7 +361,6 @@ single-hour:last-child {
 .high-temp {
     font-weight: 650;
 }
-
 
 
 @media (max-width: 600px) {
