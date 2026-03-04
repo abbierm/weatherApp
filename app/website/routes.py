@@ -11,8 +11,6 @@ from pydantic import BaseModel
 from typing import Any
 
 
-
-
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader("app/templates"),
                                 auto_reload=True)
 
@@ -64,7 +62,7 @@ async def get_weather(
     
     # Geo coordinates
     geo_url = s.base_geocoding_url + form_data.parsed_location + "&api_key=" + s.geocoding_api_key
-    json_location = await client.query_url(url=geo_url)
+    json_location = await client.query_json_url(url=geo_url)
     if len(json_location) == 0 or "ERROR" in json_location:
         flash(request, f"{form_data.location} not found")
         return templates.TemplateResponse("index.html",
@@ -78,7 +76,7 @@ async def get_weather(
 
     # Weather API 
     weather_url = f"{s.base_weather_url}&units=metric&exclude=minutely&{coordinates_string}"
-    json_weather = await client.query_url(url=weather_url)
+    json_weather = await client.query_json_url(url=weather_url)
 
     # Weather API didn't return response
     if "ERROR" in json_weather:
@@ -86,7 +84,7 @@ async def get_weather(
         return templates.TemplateResponse("index.html", {"request": request})
 
     # Cull large weather response just for needed entities
-    formatted_weather_dict = format_weather_info(json_weather, json_location[0]['display_name'])
+    formatted_weather_dict = await format_weather_info(json_weather, json_location[0]['display_name'])
 
     return templates.TemplateResponse(
 		"weather_flex.html",

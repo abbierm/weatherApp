@@ -29,12 +29,26 @@ class APIClient:
             response = await client.get(url)
             if response.status_code != 200:
                 return {"ERROR": str(await response.text())}
+            return response.text
+        except httpx.ReadTimeout:
+            return {"ERROR": "Slow Service"}
+        except Exception as e:
+            return {"ERROR": str(e)}
+
+    @classmethod
+    async def query_json_url(cls, url: str) ->dict:
+        client = cls.get_httpx_client()
+        try:
+            response = await client.get(url)
+            if response.status_code != 200:
+                return {"ERROR": str(await response.text())}
             json_result = response.json()
         except httpx.ReadTimeout:
             return {"ERROR": "Slow Service"}
         except Exception as e:
             return {"ERROR": str(e)}
         return json_result
+
 
 @asynccontextmanager
 async def httpx_lifespan_client(app: FastAPI):

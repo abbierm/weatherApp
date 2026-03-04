@@ -11,7 +11,7 @@
     --primary-200: hsl(165, 34%, 66%);
     --primary-100: hsl(161, 43%, 84%);
     
-    --neutral-100: hsl(78, 12%, 79%);
+    --neutral-100: #ccd0c3;
     --accent-400: hsl(28, 80%, 72%);
     
 
@@ -46,7 +46,6 @@ body {
     background-position: top left;
     font-family: nunito-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin: 0 2rem;
-    padding: 5rem 2rem;
 }
 
 button {
@@ -191,10 +190,6 @@ input#submit-button:hover {
     justify-content: space-between;
 }
 
-#large-icon {
-    font-size: 3rem;
-    color: var(--text-1);
-}
 
 #top-2r-r {
     display: flex;
@@ -252,7 +247,7 @@ input#submit-button:hover {
     display: flex;
     scroll-bar-width: none;
     flex-direction: row;
-    height: 100px;
+    height: 110px;
     scrollbar-width: none;
 
     > div {
@@ -349,7 +344,7 @@ single-hour:last-child {
 }
 
 .day-icon-box {
-    margin-top: 3px;
+    opacity: 0.85;
 }
 
 .highs-lows-container {
@@ -366,7 +361,7 @@ single-hour:last-child {
 @media (max-width: 600px) {
     body {
         margin: 0 .5rem;
-        padding: 5rem 1rem;
+        padding: 1rem 1rem;
     }
 
     h1 {

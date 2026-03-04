@@ -1,10 +1,7 @@
- let units;
- if (localStorage.getItem("units") == null) {
-   units = "metric";
- }
- else {
-   units = localStorage.getItem("units");
- }
+let units = localStorage.getItem("units");
+if (units == null) {
+	localStorage.setItem(units, "metric");
+}
 
  function toFahrenheit(temp) {
     return Math.round((temp * 1.8) + 32);

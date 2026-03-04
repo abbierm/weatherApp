@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from .us_lookups import states
-from pprint import pprint
+from .api_client import APIClient as client
 
 """
 Helper functions that take the data returned 
@@ -8,33 +8,39 @@ from OpenWeather's api and put them in format
 used on 'weather.html' result's widget
 """
 
-io_icons = {
-    # clear
-    "Clear": ("sunny", "moon"),
+weather_api_icons = {
+    "01n": "night-clear",
+    "01d": "day-sunny",
 
-    # cloudy
-    "Clouds": ("cloudy", "cloudy-night"),
+    "02n": "night-cloudy",
+    "02d": "day-cloudy",
 
-    # rainy
-    "Rain": ("rainy", "umbrella"),
-    "Drizzle": ("rainy", "umbrella"),
+    "03n": "night-cloudy-high",
+    "03d": "day-cloudy-high",
 
-    # thunderstorms
-    "Thunderstorm": ("thunderstorm", "thunderstorm"),
+    "04n": "cloudy",
+    "04d": "cloudy",
 
-    # snowy
-    "Snow": ("snow", "snow"), 
+    "09n": "night-rain",
+    "09d": "day-showers",
 
-    # Atmosphere
-    "Mist": ("menu", "menu"),  
-    "Haze": ("menu", "menu"),
-    "Smoke": ("filter", "filter"),
-    "Fog": ("menu", "menu"),
-    "Sand": ("finger-print", "finger-print"),
-    "Dust": ("finger-print", "finger-print"),
-    "Ash": ("flame", "flame"),
-    "Squall": ("filter", "filter"),
-    "Tornado": ("filter", "filter")
+    "10n": "showers",
+    "10d": "showers",
+
+    "11n": "night-alt-thunderstorm",
+    "11d": "day-thunderstorm",
+
+    "13n": "night-snow",
+    "13d": "day-snow",
+
+    "50n": "night-fog",
+    "50d": "day-fog"  
+}
+
+iconify_parameters = {
+    "daily": "height=54",
+    "hourly": "height=60",
+    "current": "height=110"
 }
 
 
@@ -49,6 +55,24 @@ def select_icon(description: str, time: int) -> str:
         return icon_string
     except KeyError:
             return ""
+
+
+async def get_icon(id: str, type: str):
+    if type not in iconify_parameters.keys():
+        # TODO: make some type of error
+        return ""
+    try:
+        icon = weather_api_icons[id]
+    except KeyError:
+        return ""
+    
+    url = f"https://api.iconify.design/wi/{icon}.svg?" \
+            + iconify_parameters[type] + "&color=%23ccd0c3"
+    icon = await client.query_url(url=url)
+ 
+    # TODO: Check for error
+    return icon
+    
         
 
 def get_wind_direction(deg: int) -> str:
@@ -78,7 +102,7 @@ def get_wind_direction(deg: int) -> str:
         return directions[abs(deg - deg_mod)]
     
     
-def format_weather_info(
+async def format_weather_info(
         w: dict, 
         location: str
 ) -> dict:    
@@ -93,8 +117,9 @@ def format_weather_info(
     tz = timezone(timedelta(hours=int(w["timezone_offset"] / 3600)))
     dt = datetime.fromtimestamp(weather["dt"], tz)
     weather["hours"] = dt.hour
-    weather["icon"] = select_icon(w["current"]["weather"][0]["main"], weather["hours"]) + \
-                                        'class="big-io-icon"></ion-icon>'
+    c_icon = await get_icon(w["current"]["weather"][0]["icon"], "current")
+    weather["icon"] = c_icon
+    
     weather["readable_time"] = dt.strftime("%I:%M %p")
     weather["date"] = dt.strftime("%a, %b, %d")
     weather["location"] = format_location(location)
@@ -108,11 +133,8 @@ def format_weather_info(
         ht = datetime.fromtimestamp(h["dt"], tz)
         new["time"] = ht.strftime("%I %p")
         new["temp"] = h["temp"]
-        new["icon"] = select_icon(
-                                    h["weather"][0]["main"], 
-                                    (weather["hours"] + i + 1) % 24
-                                ) + \
-                        'class="hour-io-icon"></ion-icon>'
+        h_icon = await get_icon(h["weather"][0]["icon"], "hourly")
+        new["icon"] = h_icon
         weather["hourly"][i + 1] = new
 
     # daily
@@ -125,7 +147,9 @@ def format_weather_info(
         new_day["day"] = date_time.strftime("%d")
         new_day["high"] = d["temp"]["max"]
         new_day["low"] = d["temp"]["min"]
-        new_day["icon"] = select_icon(d["weather"][0]["main"], 12) + 'class="daily-ion-icon"></ion-icon>'
+        # new_day["icon"] = select_icon(d["weather"][0]["main"], 12) + 'class="daily-ion-icon"></ion-icon>'
+        d_icon = await get_icon(d["weather"][0]["icon"], "daily")
+        new_day["icon"] = d_icon
         weather["daily"][i + 1] = new_day
 
     return weather
